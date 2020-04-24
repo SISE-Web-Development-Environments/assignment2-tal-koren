@@ -57,8 +57,8 @@ function Start() {
 		food_remain--;
 	}
 	keysDown = {};
-	addEventListener("keydown", updateDownKey, false);
-	addEventListener("keyup", updateUpKey, false);
+	addEventListener("keydown", updateDownKey);
+	addEventListener("keyup", updateUpKey);
 	interval = setInterval(UpdatePosition, 150);
 }
 
@@ -196,7 +196,7 @@ function UpdatePosition() {
 }
 
 function ResetGame(){
-	ctx.canvas.removeEventListener("keydown",updateDownKey, false);
-	ctx.canvas.removeEventListener("keyup",updateUpKey, false);
+	removeEventListener("keydown",updateDownKey);
+	removeEventListener("keyup",updateUpKey);
 	Start();
 }

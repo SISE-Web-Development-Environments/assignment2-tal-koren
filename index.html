@@ -3,22 +3,71 @@
 	<head>
 		<script src="./jquery-3.4.1.slim.min.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
+		<script type="text/javascript" src="./site.js"></script>
+
+		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 
 	<body>
-		<div id="score">
-			<label for="lblScore">SCORE:</label>
-			<input id="lblScore" type="text" />
-		</div>
-		<div id="time">
-			<label for="lblTime">TIME:</label>
-			<input id="lblTime" type="text" />
-		</div>
-		<div id="game">
-			<canvas id="canvas" height="600" width="600"></canvas>
-		</div>
-		<button onclick="ResetGame()" id="reset game">
-			<label>Reset Game</label>
-		</button>
+		
+
+		<header>
+			<h2>Pacman's Revenge</h2>
+			<p>Tal Frimerman 207012055</br>
+			Koren Ishlach 207964586</p>
+		  </header>
+		  
+		  <section>
+			<nav>
+			  <ul>	
+				<li onclick="showWelcomePage()">Welcome Page</a></li>
+				<li onclick="showRegisterPage()">Register</a></li>
+				<li onclick="showLoginPage()">Login</a></li>
+				<li onclick="showSettingsPage()">Settings</a></li>
+				<li onclick="showAboutPage()">About us</a></li>
+				<br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
+			  </ul>
+			</nav>
+
+			<div id="score" style="display:none;">
+				<label for="lblScore">SCORE:</label>
+				<input id="lblScore" type="text" />
+			</div>
+			<div id="time" style="display:none;">
+				<label for="lblTime">TIME:</label>
+				<input id="lblTime" type="text" />
+			</div>
+			<div id="game">
+				<canvas id="canvas" style="display:none;" height="600" width="600"></canvas>
+			</div>
+			
+			<div id="welcome" style="display:none;" class="welcome">
+				This is the great welcome page
+			</div>
+			<div id="Register" style="display:none;" class="Register">
+				Register page - we do sell your info
+			</div>
+			<div id="Login" style="display:none;" class="Login">
+				Login page - why would you? 
+			</div>
+			<div id="Settings" style="display:none;" class="Settings">
+				settings - probably better to go random man
+			</div>
+			<div id="About" style="display:none;" class="About">
+				<u>About us</u>
+					<br/> Our passion is selling your data to the chinese goverment
+					<br/> Viva la china
+			</div>
+		  </section>
+		  
+		  <footer>
+			<p>Site was built and designed by Koren Ishlach and Tal Frimerman </br>Contact us: info@amazingGames.com
+			</p>
+		  </footer>
+
+
+
+
+		
 	</body>
 </html>
