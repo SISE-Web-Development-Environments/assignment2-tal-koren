@@ -5,11 +5,6 @@ function showWelcomePage() {
     welcomePage=document.getElementById('Login').style.display="none";
     welcomePage=document.getElementById('Settings').style.display="none";
     welcomePage=document.getElementById('About').style.display="none";
-
-
-
-
-
 }
 
 function showRegisterPage() {
@@ -47,9 +42,5 @@ function showAboutPage() {
     welcomePage=document.getElementById('Settings').style.display="none";
     welcomePage=document.getElementById('welcome').style.display="none";
 }
-
-
-
-
 
 
