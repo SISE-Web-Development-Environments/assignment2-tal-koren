@@ -6,13 +6,23 @@ var pac_color;
 var start_time;
 var time_elapsed;
 var interval;
+var pac_face;
+var strikes;
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
 	Start();
 });
 
+function ResetGame(){
+	removeEventListener("keydown",updateDownKey);
+	removeEventListener("keyup",updateUpKey);
+	clearInterval(interval);
+	Start();
+}
+
 function Start() {
+	pac_face = 4;
 	board = new Array();
 	score = 0;
 	pac_color = "yellow";
@@ -55,21 +65,9 @@ function Start() {
 		food_remain--;
 	}
 	keysDown = {};
-	addEventListener(
-		"keydown",
-		function(e) {
-			keysDown[e.keyCode] = true;
-		},
-		false
-	);
-	addEventListener(
-		"keyup",
-		function(e) {
-			keysDown[e.keyCode] = false;
-		},
-		false
-	);
-	interval = setInterval(UpdatePosition, 250);
+	addEventListener("keydown", updateDownKey);
+	addEventListener("keyup", updateUpKey);
+	interval = setInterval(UpdatePosition, 150);
 }
 
 function findRandomEmptyCell(board) {
@@ -97,7 +95,18 @@ function GetKeyPressed() {
 	}
 }
 
+function updateDownKey(e) {
+	keysDown[e.keyCode] = true;
+}
+
+function updateUpKey(e) {
+	keysDown[e.keyCode] = false;
+}
+
 function Draw() {
+	let rotate = 0;
+	let centerizeX = 5;
+	let centerizeY = -15;
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
@@ -107,13 +116,32 @@ function Draw() {
 			center.x = i * 60 + 30;
 			center.y = j * 60 + 30;
 			if (board[i][j] == 2) {
+				if(pac_face == 4){//right
+					rotate = 0;
+					centerizeX = 5;
+					centerizeY = -15;
+				}
+				else if(pac_face == 3){//left
+					rotate = Math.PI;
+					centerizeX = -5;
+				}
+				else if(pac_face == 2){//down
+					rotate = 0.5 * Math.PI;
+					centerizeX = -15;
+					centerizeY = 5;
+				}
+				else if (pac_face == 1){//up
+					rotate =1.5 * Math.PI;
+					centerizeX = 15;
+					centerizeY = -5;
+				}
 				context.beginPath();
-				context.arc(center.x, center.y, 30, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
+				context.arc(center.x, center.y, 30, 0.15 * Math.PI + rotate, 1.85 * Math.PI + rotate); // half circle
 				context.lineTo(center.x, center.y);
 				context.fillStyle = pac_color; //color
 				context.fill();
 				context.beginPath();
-				context.arc(center.x + 5, center.y - 15, 5, 0, 2 * Math.PI); // circle
+				context.arc(center.x + centerizeX, center.y + centerizeY, 5, 0, 2 * Math.PI); // circle
 				context.fillStyle = "black"; //color
 				context.fill();
 			} else if (board[i][j] == 1) {
@@ -138,21 +166,25 @@ function UpdatePosition() {
 		if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
 			shape.j--;
 		}
+		pac_face = 1;
 	}
 	if (x == 2) {
 		if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
 			shape.j++;
 		}
+		pac_face = 2;
 	}
 	if (x == 3) {
 		if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
 			shape.i--;
 		}
+		pac_face = 3;
 	}
 	if (x == 4) {
 		if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
 			shape.i++;
 		}
+		pac_face = 4;
 	}
 	if (board[shape.i][shape.j] == 1) {
 		score++;
