@@ -15,18 +15,18 @@
 
 		<header>
 			<h2>Pacman's Revenge</h2>
-			<p>Tal Frimerman 207012055</br>
+			<p>Tal Frimerman 207012055<br/>
 			Koren Ishlach 207964586</p>
 		  </header>
 		  
 		  <section>
 			<nav>
 			  <ul>	
-				<li onclick="showWelcomePage()">Welcome Page</a></li>
-				<li onclick="showRegisterPage()">Register</a></li>
-				<li onclick="showLoginPage()">Login</a></li>
-				<li onclick="showSettingsPage()">Settings</a></li>
-				<li onclick="showAboutPage()">About us</a></li>
+				<li onclick="showWelcomePage()"><a>Welcome Page</a></li>
+				<li onclick="showRegisterPage()"><a>Register</a></li>
+				<li onclick="showLoginPage()"><a>Login</a></li>
+				<li onclick="showSettingsPage()"><a>Settings</a></li>
+				<li onclick="showAboutPage()"><a>About us</a></li>
 				<br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
 			  </ul>
 			</nav>
@@ -63,19 +63,21 @@
 					<br/>
 
 					<div class="form-group col-md-12">
-						<input class="form-control" name="email" placeholder="Email address" type="email">
+						<input class="form-control" name="email" id="email" placeholder="Email address" type="email">
 					</div>
 					<br/>
 					<div class="form-group col-md-12">
 						<input class="form-control" name="name" placeholder="Full name" type="name">
 					</div>
 					<br/>
+					<!--
 					<form action="/action_page.php">
 						<input type="date" id="birthday" name="birthday" placeholder="birthdate">
 						<label>(please click and choose your birth date)<label>
 						<br/>
 						<br/>
 					</form>	
+					-->
 					<div>
 						<input class="btn btn-primary" id="register-submit-button" type="submit" value="Sign Up">
 					 </div>	
@@ -115,7 +117,8 @@
 		  </section>
 		  
 		  <footer>
-			<p>Site was built and designed by Koren Ishlach and Tal Frimerman </br>Contact us: info@info.com
+			<p>Site was built and designed by Koren Ishlach and Tal Frimerman 
+			<br/>Contact us: info@info.com
 			</p>
 		  </footer>
 

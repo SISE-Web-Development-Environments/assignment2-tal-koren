@@ -2,7 +2,7 @@
 $(function() { 
 
     var userP = {username: "p", password: "p"};
-    var users = {userP};
+    var users = [userP];
     var thisUser;
  
     $('#register-form').validate({
@@ -55,30 +55,29 @@ $(function() {
    
     /*if doesnt work- switch to get element by id and set ids*/
     function register(){
-        console.log("reg func");
-        let userName = document.getElementsByName('username').value;
-        let password = document.getElementsByName('password').value;
-        let fullName = document.getElementsByName('name').value;
-        let email = document.getElementsByName('email').value;
-        let dateOfBirth = document.getElementsByName('birthday').value;
-        let user = {userName: userName, password: password, fullName: fullName, email:email, dateOfBirth: dateOfBirth};
+        console.log("register func");
+        let userName = document.getElementsByName('username')[0].value;
+        let password = document.getElementsByName('password')[0].value;
+        let fullName = document.getElementsByName('name')[0].value;
+        let email = document.getElementById('email').value;
+        /*let dateOfBirth = document.getElementsByName('birthday')[0].value;*/
+        let user = {username: userName, password: password, fullName: fullName, email: email};
         users.push(user);
+        console.log("user: " + userName + " added");
+
     }
 
     function login(){
         console.log("login func");
-        let userName = document.getElementsByName('usernameLogin').value;
-        let password = document.getElementsByName('passwordLogin').value;
+        let userName = document.getElementsByName('usernameLogin')[0].value;
+        let password = document.getElementsByName('passwordLogin')[0].value;
         for (index = 0; index < users.length; index++) {
-            let currentUsetName = users[index][username];
-            let currentPassword = users[index][username];
-            
-            if (userName==currentUsetName && password==currentPassword) {
+            let currentUserName = users[index]['username'];
+            let currentPassword = users[index]['username'];  
+            if (userName==currentUserName && password==currentPassword) {
                 thisUser = userName; /*To display his name when plating*/
                 document.getElementById('Login').style.display="none"; /*hide login*/
                 showGame();
-                document.write("good");
-
                 return;
             }
         }
