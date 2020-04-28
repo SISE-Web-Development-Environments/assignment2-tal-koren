@@ -8,7 +8,7 @@ var time_elapsed;
 var pacInterval;
 var monsterInterval;
 var pac_face = 4;;
-var strikes;
+var strikes = 5;
 var food = 50;
 var monstersPicArr = new Array();;
 var prevMonsterVal = new Array();;
@@ -19,6 +19,7 @@ var down = 40;
 var up = 38;
 var music= new Audio('resource\\Thunderstruck.mp3');
 var monsterCount = 4;
+var game_time = 60000;
 
 
 $(document).ready(function() {
@@ -33,6 +34,13 @@ function ResetGame(){
 	clearInterval(monsterInterval);
 	music.pause();
 	music.currentTime = 0;
+	strikes = 5;
+	monstersPicArr = new Array();;
+	prevMonsterVal = new Array();;
+	monsterPlace = new Array();
+	board = new Array();
+	pac_color = "yellow";
+	score = 0;
 	Start();
 }
 
@@ -276,10 +284,20 @@ function UpdatePacPosition() {
 	if (score >= 20 && time_elapsed <= 10) {
 		pac_color = "green";
 	}
-	if (score == 50) {
+	if(time_elapsed > game_time){
+		window.clearInterval(pacInterval);
+		window.clearInterval(monsterInterval);
+		if(score >= 100){
+			window.alert("Winner!!!");
+		}
+		else{
+			window.alert("You are better than " + score + " points!");
+		}
+	}
+	if (score == food) {
 		window.clearInterval(pacInterval);
 		window.clearInterval(monsterInterval);	
-		window.alert("Game completed");
+		window.alert("Winner!!!");
 	} else {
 		Draw();
 	}
@@ -294,8 +312,14 @@ function UpdateMonstersPosition() {
 				}
 				else{
 					board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
-					prevMonsterVal[k] = board[monsterPlace[k].i - 1][monsterPlace[k].j];
 					monsterPlace[k].i--;
+					if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
+						pacEaten()
+						prevMonsterVal[k] = 0;
+					}
+					else{
+						prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
+					}
 					board[monsterPlace[k].i][monsterPlace[k].j] = 10 - k;
 				}
 			}
@@ -305,8 +329,14 @@ function UpdateMonstersPosition() {
 				}
 				else{
 					board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
-					prevMonsterVal[k] = board[monsterPlace[k].i + 1][monsterPlace[k].j];
 					monsterPlace[k].i++;
+					if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
+						pacEaten();
+						prevMonsterVal[k] = 0;
+					}
+					else{
+						prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
+					}
 					board[monsterPlace[k].i][monsterPlace[k].j] = 10 - k;
 				}
 			}
@@ -318,8 +348,14 @@ function UpdateMonstersPosition() {
 				}
 				else{
 					board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
-					prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j - 1];
 					monsterPlace[k].j--;
+					if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
+						pacEaten();
+						prevMonsterVal[k] = 0;
+					}
+					else{
+						prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
+					}
 					board[monsterPlace[k].i][monsterPlace[k].j] = 10 - k;
 				}
 			}
@@ -329,8 +365,14 @@ function UpdateMonstersPosition() {
 				}
 				else{
 					board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
-					prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j + 1];
 					monsterPlace[k].j++;
+					if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
+						pacEaten();
+						prevMonsterVal[k] = 0;
+					}
+					else{
+						prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
+					}
 					board[monsterPlace[k].i][monsterPlace[k].j] = 10 - k;
 				}
 			}
@@ -354,8 +396,14 @@ function handleChaseI(k){
 		}
 		else{
 			board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
-			prevMonsterVal[k] = board[monsterPlace[k].i - 1][monsterPlace[k].j];
 			monsterPlace[k].i--;
+			if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
+				pacEaten();
+				prevMonsterVal[k] = 0;
+			}
+			else{
+				prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
+			}
 			board[monsterPlace[k].i][monsterPlace[k].j] = 10 - k;
 		}
 	}
@@ -365,8 +413,14 @@ function handleChaseI(k){
 		}
 		else{
 			board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
-			prevMonsterVal[k] = board[monsterPlace[k].i + 1][monsterPlace[k].j];
 			monsterPlace[k].i++;
+			if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
+				pacEaten();
+				prevMonsterVal[k] = 0;
+			}
+			else{
+				prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
+			}
 			board[monsterPlace[k].i][monsterPlace[k].j] = 10 - k;
 		}
 	}
@@ -379,8 +433,14 @@ function handleChaseJ(k){
 		}
 		else{
 			board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
-			prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j - 1];
 			monsterPlace[k].j--;
+			if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
+				pacEaten();
+				prevMonsterVal[k] = 0;
+			}
+			else{
+				prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
+			}
 			board[monsterPlace[k].i][monsterPlace[k].j] = 10 - k;
 		}
 	}
@@ -390,10 +450,51 @@ function handleChaseJ(k){
 		}
 		else{
 			board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
-			prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j + 1];
 			monsterPlace[k].j++;
+			if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
+				pacEaten();
+				prevMonsterVal[k] = 0;
+			}
+			else{
+				prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
+			}
 			board[monsterPlace[k].i][monsterPlace[k].j] = 10 - k;
 		}
+	}
+}
+
+function pacEaten(){
+	strikes--;
+	score = score - 10;
+	if(strikes == 0){
+		window.clearInterval(pacInterval);
+		window.clearInterval(monsterInterval);	
+		window.alert("Loser!");
+	}
+	else{
+		//handle the monsters
+		for(var k=0; k<monsterCount; k++){
+			board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
+			prevMonsterVal[k] = 0;
+			if(k == 0){
+				monsterPlace[k].i = 0;
+				monsterPlace[k].j = 0;
+			}
+			else if(k == 1){
+				monsterPlace[k].i = 0;
+				monsterPlace[k].j = 9;
+			}
+			else if(k == 2){
+				monsterPlace[k].i = 9;
+				monsterPlace[k].j = 0;
+			}
+			else{//k = 3
+				monsterPlace[k].i = 9;
+				monsterPlace[k].j = 9;
+			}
+		}
+		//handle the pacman
+		
 	}
 }
 
@@ -405,4 +506,5 @@ function pdateSettingsInApp(ballsNum, ghostNum, gameTime, _5color, _15color, _25
 	up = upKey;
 	down = downKey;
 	food = ballsNum;
+	game_time = gameTime;
 }
