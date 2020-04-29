@@ -1,8 +1,6 @@
 var context;
 var shape = new Object();
 var board = new Array();
-var score = 0;
-var circleEaten = 0;
 var pac_color = "yellow";
 var start_time;
 var time_elapsed;
@@ -10,7 +8,7 @@ var pacInterval;
 var monsterInterval;
 var pac_face = 4;;
 var strikes = 5;
-var food = 50;
+var food = 90;
 var monstersPicArr = new Array();;
 var prevMonsterVal = new Array();;
 var monsterPlace = new Array();
@@ -18,9 +16,12 @@ var right = 39;
 var left = 37;
 var down = 40;
 var up = 38;
+var score = 0;
+var circleEaten = 0;
 var music= new Audio('resource\\Thunderstruck.mp3');
 var monsterCount = 4;
 var game_time = 60;
+var leftFreeOnBoard = new Array();
 
 
 $(document).ready(function() {
@@ -77,16 +78,16 @@ function Start() {
 	let count = monsterCount;
 	for (var i = 0; i < 10; i++) {
 		board[i] = new Array();
-		//put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
 		for (var j = 0; j < 10; j++) {
+			leftFreeOnBoard.push(i*10+j);
 			if (
 				(i == 3 && j == 3) ||
-				(i == 3 && j == 4) ||
 				(i == 3 && j == 5) ||
 				(i == 6 && j == 1) ||
 				(i == 6 && j == 2)
 			) {
 				board[i][j] = 4;//wall
+				leftFreeOnBoard.slice(i*10+j,1);
 			} else {
 				if((i == 0 && j == 0) && (count > 0)){
 					count--;
@@ -94,6 +95,7 @@ function Start() {
 					monsterPlace[0] = new Object();
 					monsterPlace[0].i = i;
 					monsterPlace[0].j = j;
+					leftFreeOnBoard.pop();
  					continue;
 				}
 				else if((i == 0 && j == 9) && (count > 0)){
@@ -102,6 +104,7 @@ function Start() {
 					monsterPlace[1] = new Object();
 					monsterPlace[1].i = i;
 					monsterPlace[1].j = j;
+					leftFreeOnBoard.pop();
 					continue;
 				}
 				else if((i == 9 && j == 0) && (count > 0)){
@@ -110,6 +113,7 @@ function Start() {
 					monsterPlace[2] = new Object();
 					monsterPlace[2].i = i;
 					monsterPlace[2].j = j;
+					leftFreeOnBoard.pop();
 					continue;
 				}
 				else if((i == 9 && j == 9) && (count > 0)){
@@ -118,17 +122,20 @@ function Start() {
 					monsterPlace[3] = new Object();
 					monsterPlace[3].i = i;
 					monsterPlace[3].j = j;
+					leftFreeOnBoard.pop();
 					continue;
 				}
 				var randomNum = Math.random();
 				if (randomNum <= (1.0 * food_remain) / cnt) {
 					food_remain--;
 					board[i][j] = 1;//food
+					leftFreeOnBoard.pop();
 				} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
 					shape.i = i;
 					shape.j = j;
 					pacman_remain--;
 					board[i][j] = 2;//packman
+					leftFreeOnBoard.pop();
 				} else {
 					board[i][j] = 0;//empty
 				}
@@ -137,7 +144,7 @@ function Start() {
 		}
 	}
 	while (food_remain > 0) {
-		var emptyCell = findRandomEmptyCell(board);
+		var emptyCell = findRandomEmptyCell(leftFreeOnBoard);
 		board[emptyCell[0]][emptyCell[1]] = 1;
 		food_remain--;
 	}
@@ -148,14 +155,11 @@ function Start() {
 	monsterInterval = setInterval(UpdateMonstersPosition, 1200);
 }
 
-function findRandomEmptyCell(board) {
-	var i = Math.floor(Math.random() * 9 + 1);
-	var j = Math.floor(Math.random() * 9 + 1);
-	while (board[i][j] != 0) {
-		i = Math.floor(Math.random() * 9 + 1);
-		j = Math.floor(Math.random() * 9 + 1);
-	}
-	return [i, j];
+function findRandomEmptyCell(leftFreeOnBoard) {
+	var take = Math.floor(Math.random() * leftFreeOnBoard.length);
+	let outer = leftFreeOnBoard[take];
+	leftFreeOnBoard.slice(take,1);
+	return [Math.floor(outer/10), outer%10];
 }
 
 function GetKeyPressed() {
@@ -522,7 +526,7 @@ function pacEaten(){
 			board[monsterPlace[k].i][monsterPlace[k].j] = 10 - k;
 		}
 		//handle the pacman
-		let emptyCell = findRandomEmptyCell(board);
+		let emptyCell = findRandomEmptyCell(leftFreeOnBoard);
 		board[shape.i][shape.j] = 0;
 		board[emptyCell[0]][emptyCell[1]] = 2;
 		shape.i = emptyCell[0];
