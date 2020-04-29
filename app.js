@@ -2,6 +2,7 @@ var context;
 var shape = new Object();
 var board = new Array();
 var score = 0;
+var circleEaten = 0;
 var pac_color = "yellow";
 var start_time;
 var time_elapsed;
@@ -294,7 +295,7 @@ function UpdatePacPosition() {
 			window.alert("You are better than " + score + " points!");
 		}
 	}
-	if (score == food) {
+	if (circleEaten == food) {
 		window.clearInterval(pacInterval);
 		window.clearInterval(monsterInterval);	
 		window.alert("Winner!!!");
@@ -315,7 +316,7 @@ function UpdateMonstersPosition() {
 					monsterPlace[k].i--;
 					if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
 						pacEaten()
-						prevMonsterVal[k] = 0;
+						break;
 					}
 					else{
 						prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
@@ -332,7 +333,7 @@ function UpdateMonstersPosition() {
 					monsterPlace[k].i++;
 					if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
 						pacEaten();
-						prevMonsterVal[k] = 0;
+						break;
 					}
 					else{
 						prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
@@ -351,7 +352,7 @@ function UpdateMonstersPosition() {
 					monsterPlace[k].j--;
 					if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
 						pacEaten();
-						prevMonsterVal[k] = 0;
+						break;
 					}
 					else{
 						prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
@@ -368,7 +369,7 @@ function UpdateMonstersPosition() {
 					monsterPlace[k].j++;
 					if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
 						pacEaten();
-						prevMonsterVal[k] = 0;
+						break;
 					}
 					else{
 						prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
@@ -399,7 +400,7 @@ function handleChaseI(k){
 			monsterPlace[k].i--;
 			if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
 				pacEaten();
-				prevMonsterVal[k] = 0;
+				return;
 			}
 			else{
 				prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
@@ -416,7 +417,7 @@ function handleChaseI(k){
 			monsterPlace[k].i++;
 			if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
 				pacEaten();
-				prevMonsterVal[k] = 0;
+				return;
 			}
 			else{
 				prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
@@ -436,7 +437,7 @@ function handleChaseJ(k){
 			monsterPlace[k].j--;
 			if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
 				pacEaten();
-				prevMonsterVal[k] = 0;
+				return;
 			}
 			else{
 				prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
@@ -453,7 +454,7 @@ function handleChaseJ(k){
 			monsterPlace[k].j++;
 			if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
 				pacEaten();
-				prevMonsterVal[k] = 0;
+				return;
 			}
 			else{
 				prevMonsterVal[k] = board[monsterPlace[k].i][monsterPlace[k].j];
@@ -492,6 +493,7 @@ function pacEaten(){
 				monsterPlace[k].i = 9;
 				monsterPlace[k].j = 9;
 			}
+			board[monsterPlace[k].i][monsterPlace[k].j] = 10 - k;
 		}
 		//handle the pacman
 		
