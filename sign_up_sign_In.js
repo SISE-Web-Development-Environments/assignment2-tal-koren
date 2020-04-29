@@ -29,7 +29,7 @@ $(function() {
     });
 
     $('#register-form').submit(function(event){
-        event.preventDefault();
+        event.preventDefault(); 
         if($('#register-form').valid()){
             register();
         }
@@ -64,7 +64,8 @@ $(function() {
         let user = {username: userName, password: password, fullName: fullName, email: email};
         users.push(user);
         console.log("user: " + userName + " added");
-
+        window.alert(userName + " is now registered! Login to play.");
+        showLoginPage();
     }
 
     function login(){
@@ -81,21 +82,15 @@ $(function() {
                 return;
             }
         }
-        document.write("Wrong detailes!")
+        window.alert("Wrong log in details. Please try again.");
+
     }
 
     function showGame(){
         document.getElementById('score').style.display="";
         document.getElementById('time').style.display="";
         document.getElementById('game').style.display="";
-    }
-
-
-
-
-
-
-    
+    }   
 
 })
 
