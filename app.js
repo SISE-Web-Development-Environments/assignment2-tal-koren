@@ -20,7 +20,7 @@ var down = 40;
 var up = 38;
 var music= new Audio('resource\\Thunderstruck.mp3');
 var monsterCount = 4;
-var game_time = 60000;
+var game_time = 60;
 
 
 $(document).ready(function() {
@@ -144,7 +144,7 @@ function Start() {
 	addEventListener("keydown", updateDownKey);
 	addEventListener("keyup", updateUpKey);
 	pacInterval = setInterval(UpdatePacPosition, 150);
-	monsterInterval = setInterval(UpdateMonstersPosition, 1700);
+	monsterInterval = setInterval(UpdateMonstersPosition, 1500);
 }
 
 function findRandomEmptyCell(board) {
@@ -253,26 +253,38 @@ function UpdatePacPosition() {
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed();
 	if (x == 1) {
-		if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
+		if (shape.j > 0 && board[shape.i][shape.j - 1] < 4) {
 			shape.j--;
+		}
+		else if(shape.j > 0 && board[shape.i][shape.j - 1] > 4){
+			pacEaten();
 		}
 		pac_face = 1;
 	}
 	if (x == 2) {
-		if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
+		if (shape.j < 9 && board[shape.i][shape.j + 1] < 4) {
 			shape.j++;
+		}
+		else if (shape.j < 9 && board[shape.i][shape.j + 1] > 4) {
+			pacEaten();
 		}
 		pac_face = 2;
 	}
 	if (x == 3) {
-		if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
+		if (shape.i > 0 && board[shape.i - 1][shape.j] < 4) {
 			shape.i--;
+		}
+		else if (shape.i > 0 && board[shape.i - 1][shape.j] > 4) {
+			pacEaten();
 		}
 		pac_face = 3;
 	}
 	if (x == 4) {
-		if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
+		if (shape.i < 9 && board[shape.i + 1][shape.j] < 4) {
 			shape.i++;
+		}
+		else if (shape.i < 9 && board[shape.i + 1][shape.j] > 4) {
+			pacEaten();
 		}
 		pac_face = 4;
 	}
@@ -381,19 +393,23 @@ function UpdateMonstersPosition() {
 		else{
 			let rand = Math.random();
 			if(rand < 0.5){//handle i:
-				handleChaseI(k);
+				handleChaseI(k, 0);
 			}
 			else{//handle j:
-				handleChaseJ(k);
+				handleChaseJ(k, 0);
 			}
 		}
 	}
 }
 
-function handleChaseI(k){
+function handleChaseI(k, countTimes){
+	countTimes++;
+	if(countTimes == 10){
+		return;
+	}
 	if(shape.i < monsterPlace[k].i){
 		if(board[monsterPlace[k].i - 1][monsterPlace[k].j] >= 4){
-			handleChaseJ(k);
+			handleChaseJ(k, countTimes);
 		}
 		else{
 			board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
@@ -410,7 +426,7 @@ function handleChaseI(k){
 	}
 	else{
 		if(board[monsterPlace[k].i + 1][monsterPlace[k].j] >= 4){
-			handleChaseJ(k);
+			handleChaseJ(k, countTimes);
 		}
 		else{
 			board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
@@ -427,10 +443,14 @@ function handleChaseI(k){
 	}
 }
 
-function handleChaseJ(k){
+function handleChaseJ(k, countTimes){
+	countTimes++;
+	if(countTimes == 10){
+		return;
+	}
 	if(shape.j < monsterPlace[k].j){
 		if(board[monsterPlace[k].i][monsterPlace[k].j - 1] >= 4){
-			handleChaseI(k);
+			handleChaseI(k, countTimes);
 		}
 		else{
 			board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
@@ -447,7 +467,7 @@ function handleChaseJ(k){
 	}
 	else{
 		if(board[monsterPlace[k].i][monsterPlace[k].j + 1] >= 4){
-			handleChaseI(k);
+			handleChaseI(k, countTimes);
 		}
 		else{
 			board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
@@ -496,7 +516,11 @@ function pacEaten(){
 			board[monsterPlace[k].i][monsterPlace[k].j] = 10 - k;
 		}
 		//handle the pacman
-		
+		let emptyCell = findRandomEmptyCell(board);
+		board[shape.i][shape.j] = 0;
+		board[emptyCell[0]][emptyCell[1]] = 2;
+		shape.i = emptyCell[0];
+		shape.j = emptyCell[1]
 	}
 }
 
