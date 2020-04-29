@@ -42,6 +42,7 @@ function ResetGame(){
 	board = new Array();
 	pac_color = "yellow";
 	score = 0;
+	circleEaten = 0;
 	Start();
 }
 
@@ -144,7 +145,7 @@ function Start() {
 	addEventListener("keydown", updateDownKey);
 	addEventListener("keyup", updateUpKey);
 	pacInterval = setInterval(UpdatePacPosition, 150);
-	monsterInterval = setInterval(UpdateMonstersPosition, 1500);
+	monsterInterval = setInterval(UpdateMonstersPosition, 1200);
 }
 
 function findRandomEmptyCell(board) {
@@ -290,6 +291,7 @@ function UpdatePacPosition() {
 	}
 	if (board[shape.i][shape.j] == 1) {
 		score++;
+		circleEaten++;
 	}
 	board[shape.i][shape.j] = 2;
 	var currentTime = new Date();
