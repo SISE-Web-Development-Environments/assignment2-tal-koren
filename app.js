@@ -87,7 +87,7 @@ function Start() {
 				(i == 6 && j == 2)
 			) {
 				board[i][j] = 4;//wall
-				leftFreeOnBoard.slice(i*10+j,1);
+				leftFreeOnBoard.pop();
 			} else {
 				if((i == 0 && j == 0) && (count > 0)){
 					count--;
@@ -158,7 +158,7 @@ function Start() {
 function findRandomEmptyCell(leftFreeOnBoard) {
 	var take = Math.floor(Math.random() * leftFreeOnBoard.length);
 	let outer = leftFreeOnBoard[take];
-	leftFreeOnBoard.slice(take,1);
+	leftFreeOnBoard.splice(take,1);
 	return [Math.floor(outer/10), outer%10];
 }
 
