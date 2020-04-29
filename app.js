@@ -321,6 +321,7 @@ function UpdateMonstersPosition() {
 		if(shape.j == monsterPlace[k].j){//same j
 			if(shape.i < monsterPlace[k].i){
 				if(board[monsterPlace[k].i - 1][monsterPlace[k].j] >= 4){
+					moveRandFree(monsterPlace[k], k);
 					continue;
 				}
 				else{
@@ -338,6 +339,7 @@ function UpdateMonstersPosition() {
 			}
 			else{
 				if(board[monsterPlace[k].i + 1][monsterPlace[k].j] >= 4){
+					moveRandFree(monsterPlace[k], k);
 					continue;
 				}
 				else{
@@ -357,6 +359,7 @@ function UpdateMonstersPosition() {
 		else if(shape.i == monsterPlace[k].i){//same i
 			if(shape.j < monsterPlace[k].j){
 				if(board[monsterPlace[k].i][monsterPlace[k].j - 1] >= 4){
+					moveRandFree(monsterPlace[k], k);
 					continue;
 				}
 				else{
@@ -374,6 +377,7 @@ function UpdateMonstersPosition() {
 			}
 			else{
 				if(board[monsterPlace[k].i][monsterPlace[k].j + 1] >= 4){
+					moveRandFree(monsterPlace[k], k);
 					continue;
 				}
 				else{
@@ -524,6 +528,32 @@ function pacEaten(){
 	}
 }
 
+function moveRandFree(place, k){
+	if(place.j < 9 && board[place.i][place.j + 1] < 4){
+		board[place.i][place.j] = prevMonsterVal[k];
+		place.j++;
+		prevMonsterVal[k] = board[place.i][place.j];
+		board[place.i][place.j] = 10 - k;
+	}
+	else if(place.i < 9 && board[place.i + 1][place.j] < 4){
+		board[place.i][place.j] = prevMonsterVal[k];
+		place.i++;
+		prevMonsterVal[k] = board[place.i][place.j];
+		board[place.i][place.j] = 10 - k;
+	}
+	else if(place.j > 0 && board[place.i][place.j - 1] < 4){
+		board[place.i][place.j] = prevMonsterVal[k];
+		place.j--;
+		prevMonsterVal[k] = board[place.i][place.j];
+		board[place.i][place.j] = 10 - k;
+	}
+	else if(place.i > 0 && board[place.i - 1][place.j] < 4){
+		board[place.i][place.j] = prevMonsterVal[k];
+		place.i--;
+		prevMonsterVal[k] = board[place.i][place.j];
+		board[place.i][place.j] = 10 - k;
+	}
+}
 
 function pdateSettingsInApp(ballsNum, ghostNum, gameTime, _5color, _15color, _25color, rightKey, leftKey, upKey, downKey){
 	monsterCount = ghostNum;
@@ -534,3 +564,4 @@ function pdateSettingsInApp(ballsNum, ghostNum, gameTime, _5color, _15color, _25
 	food = ballsNum;
 	game_time = gameTime;
 }
+
