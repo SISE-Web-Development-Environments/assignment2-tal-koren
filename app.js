@@ -8,7 +8,7 @@ var pacInterval;
 var monsterInterval;
 var pac_face = 4;;
 var strikes = 5;
-var food = 90;
+var food = 75;
 var monstersPicArr = new Array();;
 var prevMonsterVal = new Array();;
 var monsterPlace = new Array();
@@ -40,7 +40,9 @@ function ResetGame(){
 	monstersPicArr = new Array();;
 	prevMonsterVal = new Array();;
 	monsterPlace = new Array();
+	shape = new Object();
 	board = new Array();
+	leftFreeOnBoard = new Array();
 	pac_color = "yellow";
 	score = 0;
 	circleEaten = 0;
@@ -72,74 +74,89 @@ function Start() {
 		}
 	}
 	let food_remain = food;
-	var cnt = 100;
-	var pacman_remain = 1;
+	let cnt = 100;
+	let pacman_remain = 1;
 	start_time = new Date();
 	let count = monsterCount;
+	let updaterArr = new Array();
 	for (var i = 0; i < 10; i++) {
 		board[i] = new Array();
 		for (var j = 0; j < 10; j++) {
 			leftFreeOnBoard.push(i*10+j);
-			if (
-				(i == 3 && j == 3) ||
-				(i == 3 && j == 5) ||
-				(i == 6 && j == 1) ||
-				(i == 6 && j == 2)
-			) {
-				board[i][j] = 4;//wall
-				leftFreeOnBoard.pop();
-			} else {
-				if((i == 0 && j == 0) && (count > 0)){
-					count--;
-					board[i][j] = 10;//1-monster
-					monsterPlace[0] = new Object();
-					monsterPlace[0].i = i;
-					monsterPlace[0].j = j;
-					leftFreeOnBoard.pop();
- 					continue;
+			if(food > 80){
+				if (
+					(i == 3 && j == 3) ||
+					(i == 3 && j == 5) ||
+					(i == 6 && j == 1) ||
+					(i == 6 && j == 2) ||
+					(i == 3 && j == 7)
+				) {
+					let randodo = Math.random();
+					if(randodo > 0.2){
+						board[i][j] = 4;//wall
+						leftFreeOnBoard.pop();
+					}
 				}
-				else if((i == 0 && j == 9) && (count > 0)){
-					count--;
-					board[i][j] = 9;//2-monster
-					monsterPlace[1] = new Object();
-					monsterPlace[1].i = i;
-					monsterPlace[1].j = j;
-					leftFreeOnBoard.pop();
-					continue;
+				else{
+					updaterArr = continuePlacing(i, j, cnt, pacman_remain, count, food_remain);
+					cnt = updaterArr[0];
+					pacman_remain = updaterArr[1];
+					count = updaterArr[2];
+					food_remain = updaterArr[3];
 				}
-				else if((i == 9 && j == 0) && (count > 0)){
-					count--;
-					board[i][j] = 8;//3-monster
-					monsterPlace[2] = new Object();
-					monsterPlace[2].i = i;
-					monsterPlace[2].j = j;
-					leftFreeOnBoard.pop();
-					continue;
+			}
+			else if(food > 70){
+				if (
+					(i == 3 && j == 3) ||
+					(i == 3 && j == 5) ||
+					(i == 6 && j == 1) ||
+					(i == 6 && j == 2) ||
+					(i == 3 && j == 7) ||
+					(i == 0 && j == 5) ||
+					(i == 7 && j == 7) ||
+					(i == 8 && j == 7)
+				) {
+					let randodo = Math.random();
+					if(randodo > 0.2){
+						board[i][j] = 4;//wall
+						leftFreeOnBoard.pop();
+					}
 				}
-				else if((i == 9 && j == 9) && (count > 0)){
-					count--;
-					board[i][j] = 7;//4-monster
-					monsterPlace[3] = new Object();
-					monsterPlace[3].i = i;
-					monsterPlace[3].j = j;
-					leftFreeOnBoard.pop();
-					continue;
+				else{
+					updaterArr = continuePlacing(i, j, cnt, pacman_remain, count, food_remain);
+					cnt = updaterArr[0];
+					pacman_remain = updaterArr[1];
+					count = updaterArr[2];
+					food_remain = updaterArr[3];
 				}
-				var randomNum = Math.random();
-				if (randomNum <= (1.0 * food_remain) / cnt) {
-					food_remain--;
-					board[i][j] = 1;//food
-					leftFreeOnBoard.pop();
-				} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
-					shape.i = i;
-					shape.j = j;
-					pacman_remain--;
-					board[i][j] = 2;//packman
-					leftFreeOnBoard.pop();
-				} else {
-					board[i][j] = 0;//empty
+			}
+			else{
+				if (
+					(i == 3 && j == 3) ||
+					(i == 3 && j == 5) ||
+					(i == 6 && j == 1) ||
+					(i == 6 && j == 2) ||
+					(i == 3 && j == 7) ||
+					(i == 0 && j == 5) ||
+					(i == 7 && j == 7) ||
+					(i == 8 && j == 7) || 
+					(i == 9 && j == 3) ||
+					(i == 5 && j == 3) ||
+					(i == 4 && j == 6)
+				) {
+					let randodo = Math.random();
+					if(randodo > 0.2){
+						board[i][j] = 4;//wall
+						leftFreeOnBoard.pop();
+					}
 				}
-				cnt--;
+				else{
+					updaterArr = continuePlacing(i, j, cnt, pacman_remain, count, food_remain);
+					cnt = updaterArr[0];
+					pacman_remain = updaterArr[1];
+					count = updaterArr[2];
+					food_remain = updaterArr[3];
+				}
 			}
 		}
 	}
@@ -153,6 +170,87 @@ function Start() {
 	addEventListener("keyup", updateUpKey);
 	pacInterval = setInterval(UpdatePacPosition, 150);
 	monsterInterval = setInterval(UpdateMonstersPosition, 1200);
+}
+
+
+function continuePlacing(i, j, cnt, pacman_remain, count, food_remain){
+	let updaterArr = new Array();
+	updaterArr[0] = cnt;
+	updaterArr[1] = pacman_remain;
+	updaterArr[2] = count;
+	updaterArr[3] = food_remain;
+	if((i == 0 && j == 0) && (count > 0)){
+		count--;
+		board[i][j] = 10;//1-monster
+		monsterPlace[0] = new Object();
+		monsterPlace[0].i = i;
+		monsterPlace[0].j = j;
+		leftFreeOnBoard.pop();
+		updaterArr[0] = cnt;
+		updaterArr[1] = pacman_remain;
+		updaterArr[2] = count;
+		updaterArr[3] = food_remain;
+		return updaterArr;
+	}
+	else if((i == 0 && j == 9) && (count > 0)){
+		count--;
+		board[i][j] = 9;//2-monster
+		monsterPlace[1] = new Object();
+		monsterPlace[1].i = i;
+		monsterPlace[1].j = j;
+		leftFreeOnBoard.pop();
+		updaterArr[0] = cnt;
+		updaterArr[1] = pacman_remain;
+		updaterArr[2] = count;
+		updaterArr[3] = food_remain;
+		return updaterArr;
+	}
+	else if((i == 9 && j == 0) && (count > 0)){
+		count--;
+		board[i][j] = 8;//3-monster
+		monsterPlace[2] = new Object();
+		monsterPlace[2].i = i;
+		monsterPlace[2].j = j;
+		leftFreeOnBoard.pop();
+		updaterArr[0] = cnt;
+		updaterArr[1] = pacman_remain;
+		updaterArr[2] = count;
+		updaterArr[3] = food_remain;
+		return updaterArr;
+	}
+	else if((i == 9 && j == 9) && (count > 0)){
+		count--;
+		board[i][j] = 7;//4-monster
+		monsterPlace[3] = new Object();
+		monsterPlace[3].i = i;
+		monsterPlace[3].j = j;
+		leftFreeOnBoard.pop();
+		updaterArr[0] = cnt;
+		updaterArr[1] = pacman_remain;
+		updaterArr[2] = count;
+		updaterArr[3] = food_remain;
+		return updaterArr;
+	}
+	var randomNum = Math.random();
+	if (randomNum <= (1.0 * food_remain) / cnt) {
+		food_remain--;
+		board[i][j] = 1;//food
+		leftFreeOnBoard.pop();
+	} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
+		shape.i = i;
+		shape.j = j;
+		pacman_remain--;
+		board[i][j] = 2;//packman
+		leftFreeOnBoard.pop();
+	} else {
+		board[i][j] = 0;//empty
+	}
+	cnt--;
+	updaterArr[0] = cnt;
+	updaterArr[1] = pacman_remain;
+	updaterArr[2] = count;
+	updaterArr[3] = food_remain;
+	return updaterArr;
 }
 
 function findRandomEmptyCell(leftFreeOnBoard) {
@@ -256,6 +354,7 @@ function Draw() {
 
 function UpdatePacPosition() {
 	board[shape.i][shape.j] = 0;
+	leftFreeOnBoard.push(shape.i*10 + shape.j);
 	var x = GetKeyPressed();
 	if (x == 1) {
 		if (shape.j > 0 && board[shape.i][shape.j - 1] < 4) {
