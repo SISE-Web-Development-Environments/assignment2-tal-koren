@@ -51,9 +51,9 @@ function ResetGame(){
 
 function Start() {
 	//music.play();
-	let greeny = new Image();
-	greeny.src = "resource\\greenMonster.gif";
-	monstersPicArr[0] = greeny;//1-monster
+	let reddy = new Image();
+	reddy.src = "resource\\redMonster.gif";
+	monstersPicArr[0] = reddy;//4-monster
 	prevMonsterVal[0] = 0;
 	if(monsterCount > 1){
 		let orangey = new Image();
@@ -66,9 +66,9 @@ function Start() {
 			monstersPicArr[2] = pinky;//3-monster
 			prevMonsterVal[2] = 0;
 			if(monsterCount > 3){
-				let reddy = new Image();
-				reddy.src = "resource\\redMonster.gif";
-				monstersPicArr[3] = reddy;//4-monster
+				let greeny = new Image();
+				greeny.src = "resource\\greenMonster.gif";
+				monstersPicArr[3] = greeny;//1-monster
 				prevMonsterVal[3] = 0;
 			}
 		}
@@ -361,7 +361,12 @@ function UpdatePacPosition() {
 			shape.j--;
 		}
 		else if(shape.j > 0 && board[shape.i][shape.j - 1] > 4){
-			pacEaten();
+			if(board[shape.i][shape.j - 1] == 10){
+				pacEaten(true);
+			}
+			else{
+				pacEaten(false);
+			}
 		}
 		pac_face = 1;
 	}
@@ -370,7 +375,12 @@ function UpdatePacPosition() {
 			shape.j++;
 		}
 		else if (shape.j < 9 && board[shape.i][shape.j + 1] > 4) {
-			pacEaten();
+			if(board[shape.i][shape.j + 1] == 10){
+				pacEaten(true);
+			}
+			else{
+				pacEaten(false);
+			}
 		}
 		pac_face = 2;
 	}
@@ -379,7 +389,12 @@ function UpdatePacPosition() {
 			shape.i--;
 		}
 		else if (shape.i > 0 && board[shape.i - 1][shape.j] > 4) {
-			pacEaten();
+			if(board[shape.i - 1][shape.j] == 10){
+				pacEaten(true);
+			}
+			else{
+				pacEaten(false);
+			}
 		}
 		pac_face = 3;
 	}
@@ -388,7 +403,12 @@ function UpdatePacPosition() {
 			shape.i++;
 		}
 		else if (shape.i < 9 && board[shape.i + 1][shape.j] > 4) {
-			pacEaten();
+			if(board[shape.i + 1][shape.j] == 10){
+				pacEaten(true);
+			}
+			else{
+				pacEaten(false);
+			}
 		}
 		pac_face = 4;
 	}
@@ -433,7 +453,12 @@ function UpdateMonstersPosition() {
 					board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
 					monsterPlace[k].i--;
 					if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
-						pacEaten()
+						if(k == 0){
+							pacEaten(true);
+						}
+						else{
+							pacEaten(false);
+						}
 						break;
 					}
 					else{
@@ -451,7 +476,12 @@ function UpdateMonstersPosition() {
 					board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
 					monsterPlace[k].i++;
 					if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
-						pacEaten();
+						if(k == 0){
+							pacEaten(true);
+						}
+						else{
+							pacEaten(false);
+						}
 						break;
 					}
 					else{
@@ -471,7 +501,12 @@ function UpdateMonstersPosition() {
 					board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
 					monsterPlace[k].j--;
 					if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
-						pacEaten();
+						if(k == 0){
+							pacEaten(true);
+						}
+						else{
+							pacEaten(false);
+						}
 						break;
 					}
 					else{
@@ -489,7 +524,12 @@ function UpdateMonstersPosition() {
 					board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
 					monsterPlace[k].j++;
 					if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
-						pacEaten();
+						if(k == 0){
+							pacEaten(true);
+						}
+						else{
+							pacEaten(false);
+						}
 						break;
 					}
 					else{
@@ -524,7 +564,12 @@ function handleChaseI(k, countTimes){
 			board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
 			monsterPlace[k].i--;
 			if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
-				pacEaten();
+				if(k == 0){
+					pacEaten(true);
+				}
+				else{
+					pacEaten(false);
+				}
 				return;
 			}
 			else{
@@ -541,7 +586,12 @@ function handleChaseI(k, countTimes){
 			board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
 			monsterPlace[k].i++;
 			if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
-				pacEaten();
+				if(k == 0){
+					pacEaten(true);
+				}
+				else{
+					pacEaten(false);
+				}
 				return;
 			}
 			else{
@@ -565,7 +615,12 @@ function handleChaseJ(k, countTimes){
 			board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
 			monsterPlace[k].j--;
 			if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
-				pacEaten();
+				if(k == 0){
+					pacEaten(true);
+				}
+				else{
+					pacEaten(false);
+				}
 				return;
 			}
 			else{
@@ -582,7 +637,12 @@ function handleChaseJ(k, countTimes){
 			board[monsterPlace[k].i][monsterPlace[k].j] = prevMonsterVal[k];
 			monsterPlace[k].j++;
 			if(board[monsterPlace[k].i][monsterPlace[k].j] == 2){
-				pacEaten();
+				if(k == 0){
+					pacEaten(true);
+				}
+				else{
+					pacEaten(false);
+				}
 				return;
 			}
 			else{
@@ -593,10 +653,16 @@ function handleChaseJ(k, countTimes){
 	}
 }
 
-function pacEaten(){
-	strikes--;
-	score = score - 10;
-	if(strikes == 0){
+function pacEaten(bool){
+	if(bool){
+		score = score - 20;
+		strikes = strikes - 2;
+	}
+	else{
+		score = score - 10;
+		strikes--;
+	}
+	if(strikes <= 0){
 		window.clearInterval(pacInterval);
 		window.clearInterval(monsterInterval);	
 		window.alert("Loser!");
