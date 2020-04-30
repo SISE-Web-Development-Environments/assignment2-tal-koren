@@ -2,9 +2,12 @@
 <html>
 	<head>
 		<script src="./jquery-3.4.1.slim.min.js"></script>
+		<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
+		<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
-		<script type="text/javascript" src="./site.js"></script>
-
+		<script type="text/javascript" src="./appSettings.js"></script>
+		<script type="text/javascript" src="./menu.js"></script>
+		<script type="text/javascript" src="./sign_up_sign_In.js"></script>
 		<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 
@@ -12,19 +15,18 @@
 		
 
 		<header>
-			<h2>Pacman's Revenge</h2>
-			<p>Tal Frimerman 207012055</br>
-			Koren Ishlach 207964586</p>
+			<h2>Pacman</h2>
+			<p>Tal Frimerman 207012055, Koren Ishlach 207964586</p>
 		  </header>
 		  
 		  <section>
 			<nav>
 			  <ul>	
-				<li onclick="showWelcomePage()">Welcome Page</a></li>
-				<li onclick="showRegisterPage()">Register</a></li>
-				<li onclick="showLoginPage()">Login</a></li>
-				<li onclick="showSettingsPage()">Settings</a></li>
-				<li onclick="showAboutPage()">About us</a></li>
+				<li onclick="showWelcomePage()"><a>Welcome</a></li>
+				<li onclick="showRegisterPage()"><a>Register</a></li>
+				<li onclick="showLoginPage()"><a>Login</a></li>
+				<li onclick="showSettingsPage()"><a>Settings</a></li>
+				<li onclick="showAboutPage()"><a>About us</a></li>
 				<br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
 			  </ul>
 			</nav>
@@ -37,37 +39,159 @@
 				<label for="lblTime">TIME:</label>
 				<input id="lblTime" type="text" />
 			</div>
-			<div id="game">
-				<canvas id="canvas" style="display:none;" height="600" width="600"></canvas>
+			<div id="game" style="display:none;">
+				<canvas id="canvas" height="600" width="600"></canvas>
 			</div>
 			
-			<div id="welcome" style="display:none;" class="welcome">
-				This is the great welcome page
+			<div id="welcome"  class="welcome">
+				<div><img src="logo.jpg" style="max-width:180vh;"/></div>
+				<button type="button" class="block" onclick="showRegisterPage()">Register</button>
+				<button type="button" class="block" onclick="showLoginPage()">I already have an account</button>
 			</div>
+
 			<div id="Register" style="display:none;" class="Register">
-				Register page - we do sell your info
+				<u>Register</u> 
+				<br/>
+				<br/>
+				<form id="register-form">	  
+					<div class="form-group col-md-12">
+					  <input class="form-control" name="username" placeholder="Username" type="username">
+					</div>
+					<br/>
+
+					<div class="form-group col-md-6">
+						<input class="form-control" name="password" id="password-reg" placeholder="Password" type="password">
+					</div>
+					<br/>
+
+					<div class="form-group col-md-12">
+						<input class="form-control" name="email" id="email" placeholder="Email address" type="email">
+					</div>
+					<br/>
+					<div class="form-group col-md-12">
+						<input class="form-control" name="name" placeholder="Full name" type="name">
+					</div>
+					<br/>
+					<div class="form-group col-md-12">
+						<input type="date" id="birthday" name="birthday" placeholder="birthdate">
+						<label>(please click and choose your birth date)<label>
+					</div>	
+					<br/>
+					<div>
+						<input class="btn btn-primary" id="register-submit-button" type="submit" value="Sign Up">
+					 </div>	
+					 <br/>
+				</form>
 			</div>
+
 			<div id="Login" style="display:none;" class="Login">
-				Login page - why would you? 
+				<form id="login-form">	  
+					<div class="form-group col-md-12">
+					  <input class="form-control" name="usernameLogin" placeholder="Username" type="username">
+					</div>
+					<br/>
+
+					<div class="form-group col-md-6">
+						<input class="form-control" name="passwordLogin" id="password-login" placeholder="Password" type="password">
+						<br/>
+						<br/>
+					</div>
+					<div>
+						<input class="btn btn-primary" id="login-submit-button" type="submit" value="Login and play!" >
+					 </div>	
+					 <br/>
+				</form>
 			</div>
-			<div id="Settings" style="display:none;" class="Settings">
-				settings - probably better to go random man
+
+			<div id="Settings" style="display:none; height: 70vh; overflow-y:scroll;" class="Settings"  >
+				<form id="settings-form">
+					<p><u>Settings</u></p>	  
+					<div class="form-group col-md-12">
+					  <label>Number of balls</label>	
+					  <input class="form-control" name="ballsNumber" id="ballsNumber" type="number" min="50" max="90">
+					  <label id=ballsNumLabel>(from 50 to 90)</label>
+					</div>
+					<br/>
+					<div class="form-group col-md-12">
+						<label>Number of ghosts</label>	
+						<input class="form-control" name="ghostNumber" id="ghostNumber" type="number" min=1 max=4>
+						<label id=ballsNumLabel>(from 1 to 4)</label>
+					</div>
+					<br/>
+					<div class="form-group col-md-6">
+						<label>Game duration (sec)</label>	
+						<input class="form-control" name="gameTime" id="gameTime" type="number" min=60 max=600>
+						<label id=timeLabel>(Minimum 60 sec)</label>	
+					</div>
+					<br/>					
+					<div class="form-group col-md-6">
+						<label>Choose 5 point ball color</label>	
+						<input class = "form-control" type="color" id="_5color" value="#ff0000">
+					</div>
+					<br/>
+					<div class="form-group col-md-6">
+						<label>Choose 15 point ball color</label>	
+						<input class = "form-control" type="color" id="_15color" value="#ff0000">
+					</div>
+					<br/>
+					<div class="form-group col-md-6">
+						<label>Choose 25 point ball color</label>	
+						<input class = "form-control" type="color" id="_25color" value="#ff0000">
+					</div>
+					<br/>
+					<div class="form-group col-md-6">
+						<label>Choose <b>right</b> key</label>	
+						<input class = "form-control" id="rightKey" type="text" maxlength="1">
+						<label>(leave empty for right arrow key)</label>	
+					</div>
+					<br/>
+					<div class="form-group col-md-6">
+						<label>Choose <b>left</b> key</label>	
+						<input class = "form-control" id="leftKey" type="text" maxlength="1">
+						<label>(leave empty for left arrow key)</label>	
+					</div>
+					<br/>
+					<div class="form-group col-md-6">
+						<label>Choose <b>up</b> key</label>	
+						<input class = "form-control" id="upKey" type="text" maxlength="1">
+						<label>(leave empty for up arrow key)</label>	
+					</div>
+					<br/>
+					<div class="form-group col-md-6">
+						<label>Choose <b>down</b> key</label>	
+						<input class = "form-control" id="downKey" type="text" maxlength="1">
+						<label>(leave empty for down arrow key)</label>	
+					</div>
+					<br/>
+					<div>
+						<input class="btn btn-primary" id="randomizeSettingsButton" type="button" value="Randomize" >
+					</div>
+					<br/>
+					<div>
+						<input class="btn btn-primary" id="save-settings-button" type="submit" value="Save">
+					</div>
+					 <br/>
+				</form>
 			</div>
-			<div id="About" style="display:none;" class="About">
-				<u>About us</u>
-					<br/> Our passion is selling your data to the chinese goverment
-					<br/> Viva la china
+
+			<div id="About" class="modal">
+				<div class="modal-content">
+					<span class="close">&times;</span>
+					<p>We are Tal Frimerman and Koren Ishlach.
+						<br/> We used jQuery for validation of the forms in the site (using jQuery validation plugin). 
+						<br/> We didn't use a template.
+						<br/> The difficult part for us is the fact that it was our first experience with JS, so we needed to get used to it.
+
+					</p>
+				  </div>				
 			</div>
 		  </section>
 		  
 		  <footer>
-			<p>Site was built and designed by Koren Ishlach and Tal Frimerman </br>Contact us: info@amazingGames.com
+			<p>Site was built and designed by Koren Ishlach and Tal Frimerman 
+			<br/>Contact us: info@info.com
 			</p>
 		  </footer>
 
-
-
-
-		
 	</body>
 </html>
