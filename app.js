@@ -10,8 +10,8 @@ var randomShapeInterval;
 var pac_face = 4;;
 var strikes = 5;
 var food = 90;
-var monstersPicArr = new Array();;
-var prevMonsterVal = new Array();;
+var monstersPicArr = new Array();
+var prevMonsterVal = new Array();
 var monsterPlace = new Array();
 var right = 39;
 var left = 37;
@@ -36,7 +36,6 @@ var count5;
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
-	Start();
 });
 
 function ResetGame(){
@@ -369,6 +368,7 @@ function Draw() {
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
 	lblStrikes.value = 5 - strikes;
+	lblUserName.value = getUserName();
 	for (var i = 0; i < 10; i++) {
 		for (var j = 0; j < 10; j++) {
 			var center = new Object();
@@ -898,7 +898,7 @@ function getFreeNeighboards(){
 	return freeNeighboars;
 }
 
-function pdateSettingsInApp(ballsNum, ghostNum, gameTime, _5color, _15color, _25color, rightKey, leftKey, upKey, downKey){
+function updateSettingsInApp(ballsNum, ghostNum, gameTime, _5color, _15color, _25color, rightKey, leftKey, upKey, downKey){
 	monsterCount = ghostNum;
 	right = rightKey;
 	left = leftKey;
@@ -910,3 +910,12 @@ function pdateSettingsInApp(ballsNum, ghostNum, gameTime, _5color, _15color, _25
 	color15 = _15color;
 	color25 = _25color;
 }
+
+function stop() {
+	clearInterval(monsterInterval);
+	clearInterval(pacInterval);
+	clearInterval(randomShapeInterval);
+	music.pause();
+	music.currentTime = 0;
+}
+

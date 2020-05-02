@@ -1,9 +1,10 @@
+var thisUser="";
+
 
 $(function() { 
 
     var userP = {username: "p", password: "p"};
     var users = [userP];
-    var thisUser;
  
     $('#register-form').validate({
         rules: {
@@ -78,19 +79,21 @@ $(function() {
             if (userName==currentUserName && password==currentPassword) {
                 thisUser = userName; /*To display his name when plating*/
                 document.getElementById('Login').style.display="none"; /*hide login*/
-                showGame();
+                showSettingsButtonInMenu();
+                showSettingsPage();
                 return;
             }
         }
         window.alert("Wrong log in details. Please try again.");
-
     }
 
-    function showGame(){
-        document.getElementById('score').style.display="";
-        document.getElementById('time').style.display="";
-        document.getElementById('game').style.display="";
-    }   
-
 })
+
+function getUserName() {
+    return thisUser;
+}
+
+function showSettingsButtonInMenu() {
+    document.getElementById('registerMenuButton').style.display="";
+}
 

@@ -1,6 +1,6 @@
-$(function() {
+var ballsNum, ghostNum, gameTime, _5color, _15color, _25color, rightKey, leftKey, upKey, downKey;
 
-    var ballsNum, ghostNum, gameTime, _5color, _15color, _25color, rightKey, leftKey, upKey, downKey;
+$(function() {
 
     function randomizeSettings(){
         document.getElementById("ballsNumber").value = getRandomBetween(50,90);
@@ -45,37 +45,38 @@ $(function() {
         _25color =  document.getElementById("_25color").value;
 
         /*direction keys - arrows if empty*/
-        let rightKey = "";
+        rightKey = "";
         if (document.getElementById("rightKey").value=="") {
             rightKey = 39; /*right arrow key*/
         }
         else {
-            rightKey=document.getElementById("rightKey").value.charCodeAt(0);
+            rightKey=document.getElementById("rightKey").value.toUpperCase().charCodeAt(0);
         }
-        let leftKey = "";
+        leftKey = "";
         if (document.getElementById("leftKey").value=="") {
             leftKey = 37; /*left arrow key*/
         }
         else {
-            leftKey=document.getElementById("leftKey").value.charCodeAt(0);
+            leftKey=document.getElementById("leftKey").value.toUpperCase().charCodeAt(0);
         }
-        let upKey = "";
+        upKey = "";
         if (document.getElementById("upKey").value=="") {
             upKey = 38; /*up arrow key*/
         }
         else {
-            upKey=document.getElementById("upKey").value.charCodeAt(0);
+            upKey=document.getElementById("upKey").value.toUpperCase().charCodeAt(0);
         }
-        let downKey = "";
+        downKey = "";
         if (document.getElementById("downKey").value=="") {
             downKey = 40; /*down arrow key*/
         }
         else {
-            downKey=document.getElementById("upKey").value.charCodeAt(0);
+            downKey=document.getElementById("downKey").value.toUpperCase().charCodeAt(0);
         }
         updateSettingsInApp(ballsNum, ghostNum, gameTime, _5color, _15color, _25color,
                                 rightKey, leftKey, upKey, downKey);
-        window.alert("Settings saved");
+        showGame();
+        document.getElementById('Settings').style.display="none";
     }
     });
 
@@ -95,3 +96,39 @@ $(function() {
     }
 
 })
+
+function showSettings() {
+    if (upKey>=37 && upKey<=40) {
+        lblUp.value="Up arrow"
+    }
+    else {
+        lblUp.value=String.fromCharCode(upKey);
+    }
+    if (downKey>=37 && downKey<=40) {
+        lblDown.value="Down arrow"
+    }
+    else {
+        lblDown.value=String.fromCharCode(downKey);
+    }
+    if (rightKey>=37 && rightKey<=40) {
+        lblRight.value="Right key";
+    }
+    else {
+        lblRight.value=String.fromCharCode(rightKey);
+    }
+    if (leftKey>=37 && leftKey<=40) {
+        leftKey=value="Left key";
+    }
+    else {
+        lblLeft.value=String.fromCharCode(leftKey);
+    }   
+
+    lblBallsNum.value=ballsNum;
+    lbl5BallsColor.value=_5color;
+    lbl15BallsColor.value=_15color;
+    lbl25BallsColor.value=_25color;
+
+    lblGameTime.value=gameTime;
+
+    lblGhostNumber.value=ghostNum;
+}

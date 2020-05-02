@@ -1,53 +1,51 @@
 function showWelcomePage() {    
-    welcomePage=document.getElementById('welcome').style.display="";
+    document.getElementById('welcome').style.display="";
 
-    welcomePage=document.getElementById('Register').style.display="none";
-    welcomePage=document.getElementById('Login').style.display="none";
-    welcomePage=document.getElementById('Settings').style.display="none";
-    welcomePage=document.getElementById('About').style.display="none";
-    document.getElementById('game').style.display="none";
-    document.getElementById('time').style.display="none";
-    document.getElementById('score').style.display="none";
-
+    document.getElementById('Register').style.display="none";
+    document.getElementById('Login').style.display="none";
+    document.getElementById('Settings').style.display="none";
+    document.getElementById('About').style.display="none";
+    hideGame();
+    stop();
 }
 
 function showRegisterPage() {
-    welcomePage=document.getElementById('Register').style.display="";
+    document.getElementById('Register').style.display="";
 
-    welcomePage=document.getElementById('welcome').style.display="none";
-    welcomePage=document.getElementById('Login').style.display="none";
-    welcomePage=document.getElementById('Settings').style.display="none";
-    welcomePage=document.getElementById('About').style.display="none";
-    document.getElementById('game').style.display="none";
-    document.getElementById('time').style.display="none";
-    document.getElementById('score').style.display="none";
+    document.getElementById('welcome').style.display="none";
+    document.getElementById('Login').style.display="none";
+    document.getElementById('Settings').style.display="none";
+    document.getElementById('About').style.display="none";
+    hideGame();
+    stop();
 }
 
 function showLoginPage() {
-    welcomePage=document.getElementById('Login').style.display="";
+    document.getElementById('Login').style.display="";
 
-    welcomePage=document.getElementById('Register').style.display="none";
-    welcomePage=document.getElementById('welcome').style.display="none";
-    welcomePage=document.getElementById('Settings').style.display="none";
-    welcomePage=document.getElementById('About').style.display="none";
-    document.getElementById('game').style.display="none";
-    document.getElementById('time').style.display="none";
-    document.getElementById('score').style.display="none";
+    document.getElementById('Register').style.display="none";
+    document.getElementById('welcome').style.display="none";
+    document.getElementById('Settings').style.display="none";
+    document.getElementById('About').style.display="none";
+    hideGame();
+    stop();
+
 }
 
 function showSettingsPage() {
-    welcomePage=document.getElementById('Settings').style.display="";
+    document.getElementById('Settings').style.display="";
 
-    welcomePage=document.getElementById('Register').style.display="none";
-    welcomePage=document.getElementById('Login').style.display="none";
-    welcomePage=document.getElementById('welcome').style.display="none";
-    welcomePage=document.getElementById('About').style.display="none";
-    document.getElementById('game').style.display="none";
-    document.getElementById('time').style.display="none";
-    document.getElementById('score').style.display="none";
+    document.getElementById('Register').style.display="none";
+    document.getElementById('Login').style.display="none";
+    document.getElementById('welcome').style.display="none";
+    document.getElementById('About').style.display="none";
+    hideGame();
+    stop();
+
 }
 
 function showAboutPage() {
+    stop();
     var modal = document.getElementById("About");
     var btn = document.getElementById("myBtn");
     var span = document.getElementsByClassName("close")[0];
@@ -66,10 +64,21 @@ function showAboutPage() {
             modal.style.display = "none";
         }
     };
-  
-    document.getElementById('game').style.display="none";
-    document.getElementById('time').style.display="none";
-    document.getElementById('score').style.display="none";
+    hideGame();
 }
+
+function hideGame() {
+    document.getElementById('gameDetails').style.display="none";
+    document.getElementById('game').style.display="none";
+}
+
+function showGame(){
+    document.getElementById('gameDetails').style.display="";
+    document.getElementById('game').style.display="";
+    showSettings();
+    Start();
+    ResetGame();
+}
+
 
 
