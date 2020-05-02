@@ -50,7 +50,7 @@
 				<div style="float:left; margin:170px">
 					<div>
 						<label for="lblUp">Up:</label>
-						<input id="lblUp" type="text" readonly="readonly" value="Up key"/></li>
+						<input id="lblUp" type="text" readonly="readonly" value="Up key"/>
 					</div>
 					<div>
 						<label for="lblDown">Down:</label> 
@@ -95,10 +95,11 @@
 
 			</div>
 			
-			<div id="welcome"  class="welcome">
-				<div><img src="logo.jpg" style="max-width:180vh;"/></div>
+			<div style="background-image: url(welcomeBack.jpg); background-attachment: fixed; background-position-x:75px; background-position-y:-135px; background-repeat: no-repeat; background-size: cover;" id="welcome"  class="welcome">
+				<!--<div><img src="welcomeBack.jpg" style="max-width:100vh;"/></div>-->
 				<button type="button" class="block" onclick="showRegisterPage()">Register</button>
 				<button type="button" class="block" onclick="showLoginPage()">I already have an account</button>
+
 			</div>
 
 			<div id="Register" style="display:none;" class="Register">
@@ -122,11 +123,11 @@
 					<br/>
 					<div class="form-group col-md-12">
 						<input class="form-control" name="name" placeholder="Full name" type="name">
-					</div>
+					</div>	
 					<br/>
 					<div class="form-group col-md-12">
 						<input type="date" id="birthday" name="birthday" placeholder="birthdate">
-						<label>(please click and choose your birth date)<label>
+						<label>(please click and choose your birth date)</label>
 					</div>	
 					<br/>
 					<div>
