@@ -60,7 +60,7 @@ function ResetGame(){
 }
 
 function Start() {
-	//music.play();
+	music.play();
 	count25 = Math.floor(0.1 * food);
 	count15 = Math.floor(0.3 * food);
 	count5 = food - count25 - count15;
