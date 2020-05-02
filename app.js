@@ -6,9 +6,10 @@ var start_time;
 var time_elapsed;
 var pacInterval;
 var monsterInterval;
+var randomShapeInterval;
 var pac_face = 4;;
 var strikes = 5;
-var food = 75;
+var food = 90;
 var monstersPicArr = new Array();;
 var prevMonsterVal = new Array();;
 var monsterPlace = new Array();
@@ -22,7 +23,16 @@ var music= new Audio('resource\\Thunderstruck.mp3');
 var monsterCount = 4;
 var game_time = 60;
 var leftFreeOnBoard = new Array();
-
+var giftPic;
+var prevValGift;
+var giftPlace;
+var giftEaten;
+var color5 = "blue";
+var color15 = "orange";
+var color25 = "red";
+var count25;
+var count15;
+var count5;
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");
@@ -34,6 +44,7 @@ function ResetGame(){
 	removeEventListener("keyup",updateUpKey);
 	clearInterval(pacInterval);
 	clearInterval(monsterInterval);
+	clearInterval(randomShapeInterval);
 	music.pause();
 	music.currentTime = 0;
 	strikes = 5;
@@ -51,6 +62,14 @@ function ResetGame(){
 
 function Start() {
 	//music.play();
+	count25 = Math.floor(0.1 * food);
+	count15 = Math.floor(0.3 * food);
+	count5 = food - count25 - count15;
+
+	giftEaten = false;
+	giftPlace = new Object();
+	giftPic = new Image();
+	giftPic.src = "resource\\gift.png";
 	let reddy = new Image();
 	reddy.src = "resource\\redMonster.gif";
 	monstersPicArr[0] = reddy;//4-monster
@@ -91,11 +110,8 @@ function Start() {
 					(i == 6 && j == 2) ||
 					(i == 3 && j == 7)
 				) {
-					let randodo = Math.random();
-					if(randodo > 0.2){
-						board[i][j] = 4;//wall
-						leftFreeOnBoard.pop();
-					}
+					board[i][j] = 4;//wall
+					leftFreeOnBoard.pop();
 				}
 				else{
 					updaterArr = continuePlacing(i, j, cnt, pacman_remain, count, food_remain);
@@ -116,11 +132,8 @@ function Start() {
 					(i == 7 && j == 7) ||
 					(i == 8 && j == 7)
 				) {
-					let randodo = Math.random();
-					if(randodo > 0.2){
-						board[i][j] = 4;//wall
-						leftFreeOnBoard.pop();
-					}
+					board[i][j] = 4;//wall
+					leftFreeOnBoard.pop();
 				}
 				else{
 					updaterArr = continuePlacing(i, j, cnt, pacman_remain, count, food_remain);
@@ -144,11 +157,8 @@ function Start() {
 					(i == 5 && j == 3) ||
 					(i == 4 && j == 6)
 				) {
-					let randodo = Math.random();
-					if(randodo > 0.2){
-						board[i][j] = 4;//wall
-						leftFreeOnBoard.pop();
-					}
+					board[i][j] = 4;//wall
+					leftFreeOnBoard.pop();
 				}
 				else{
 					updaterArr = continuePlacing(i, j, cnt, pacman_remain, count, food_remain);
@@ -161,15 +171,23 @@ function Start() {
 		}
 	}
 	while (food_remain > 0) {
-		var emptyCell = findRandomEmptyCell(leftFreeOnBoard);
+		var emptyCell = findRandomEmptyCell();
 		board[emptyCell[0]][emptyCell[1]] = 1;
 		food_remain--;
 	}
+	giftPlace.i = 0;
+	giftPlace.j = 0;
+	while(board[giftPlace.i][giftPlace.j] >= 4 || board[giftPlace.i][giftPlace.j] == 2){ 
+		giftPlace.i = Math.floor(Math.random() * 9 + 1)
+		giftPlace.j = Math.floor(Math.random() * 9 + 1)
+	}
+	prevValGift = board[giftPlace.i][giftPlace.j];
 	keysDown = {};
 	addEventListener("keydown", updateDownKey);
 	addEventListener("keyup", updateUpKey);
 	pacInterval = setInterval(UpdatePacPosition, 150);
 	monsterInterval = setInterval(UpdateMonstersPosition, 1200);
+	randomShapeInterval = setInterval(updateRandomShape, 800);
 }
 
 
@@ -234,7 +252,7 @@ function continuePlacing(i, j, cnt, pacman_remain, count, food_remain){
 	var randomNum = Math.random();
 	if (randomNum <= (1.0 * food_remain) / cnt) {
 		food_remain--;
-		board[i][j] = 1;//food
+		board[i][j] = pickBall();//food
 		leftFreeOnBoard.pop();
 	} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
 		shape.i = i;
@@ -253,7 +271,67 @@ function continuePlacing(i, j, cnt, pacman_remain, count, food_remain){
 	return updaterArr;
 }
 
-function findRandomEmptyCell(leftFreeOnBoard) {
+function pickBall(){//returns random ball to place in board
+	let randandino = Math.random();
+	if(count5 > 0 && count15 > 0 && count25 > 0){
+		if(randandino < 0.5){
+			count5--;
+			return 0.8;
+		}
+		else if(randandino < 0.8){
+			count15--;
+			return 1;
+		}
+		else{
+			count25--;
+			return 1.2;
+		}
+	}
+	else if(count5 > 0 && count15 > 0){
+		if(randandino < 0.7){
+			count5--;
+			return 0.8;
+		}
+		else{
+			count15--;
+			return 1;
+		}
+	}
+	else if(count5 > 0 && count25 > 0){
+		if(randandino < 0.8){
+			count5--;
+			return 0.8;
+		}
+		else{
+			count25--;
+			return 1.2;
+		}
+	}
+	else if(count15 > 0 && count25 > 0){
+		if(randandino < 0.666){
+			count15--;
+			return 1;
+		}
+		else{
+			count25--;
+			return 1.2;
+		}
+	}
+	else if(count5 > 0){
+		count5--;
+		return 0.8
+	}
+	else if(count15 > 0){
+		count15--;
+		return 1;
+	}
+	else if(count25 > 0){
+		count25--;
+		return 1.2;
+	}
+}
+
+function findRandomEmptyCell() {
 	var take = Math.floor(Math.random() * leftFreeOnBoard.length);
 	let outer = leftFreeOnBoard[take];
 	leftFreeOnBoard.splice(take,1);
@@ -290,6 +368,7 @@ function Draw() {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
 	lblTime.value = time_elapsed;
+	lblStrikes.value = 5 - strikes;
 	for (var i = 0; i < 10; i++) {
 		for (var j = 0; j < 10; j++) {
 			var center = new Object();
@@ -325,11 +404,23 @@ function Draw() {
 				context.arc(center.x + centerizeX, center.y + centerizeY, 3, 0, 2 * Math.PI); // circle
 				context.fillStyle = "black"; //color
 				context.fill();
-			} else if (board[i][j] == 1) {
+			} else if (board[i][j] == 0.8) {
 				context.beginPath();
 				context.arc(center.x, center.y, 7.5, 0, 2 * Math.PI); // circle
-				context.fillStyle = "black"; //color
+				context.fillStyle = color5; //color 5 points
 				context.fill();
+			}else if (board[i][j] == 1) {
+				context.beginPath();
+				context.arc(center.x, center.y, 7.5, 0, 2 * Math.PI); // circle
+				context.fillStyle = color15; //color 15 points
+				context.fill();
+			}else if (board[i][j] == 1.2) {
+				context.beginPath();
+				context.arc(center.x, center.y, 7.5, 0, 2 * Math.PI); // circle
+				context.fillStyle = color25; //color 25 points
+				context.fill();
+			}else if(board[i][j] == 3){//draw 50 points gift
+				context.drawImage(giftPic, center.x - 15, center.y - 15);
 			} else if (board[i][j] == 4) {
 				context.beginPath();
 				context.rect(center.x - 15, center.y - 15, 30, 30);
@@ -354,11 +445,11 @@ function Draw() {
 
 function UpdatePacPosition() {
 	board[shape.i][shape.j] = 0;
-	leftFreeOnBoard.push(shape.i*10 + shape.j);
 	var x = GetKeyPressed();
 	if (x == 1) {
 		if (shape.j > 0 && board[shape.i][shape.j - 1] < 4) {
 			shape.j--;
+			leftFreeOnBoard.push(shape.i*10 + shape.j);
 		}
 		else if(shape.j > 0 && board[shape.i][shape.j - 1] > 4){
 			if(board[shape.i][shape.j - 1] == 10){
@@ -373,6 +464,7 @@ function UpdatePacPosition() {
 	if (x == 2) {
 		if (shape.j < 9 && board[shape.i][shape.j + 1] < 4) {
 			shape.j++;
+			leftFreeOnBoard.push(shape.i*10 + shape.j);
 		}
 		else if (shape.j < 9 && board[shape.i][shape.j + 1] > 4) {
 			if(board[shape.i][shape.j + 1] == 10){
@@ -387,6 +479,7 @@ function UpdatePacPosition() {
 	if (x == 3) {
 		if (shape.i > 0 && board[shape.i - 1][shape.j] < 4) {
 			shape.i--;
+			leftFreeOnBoard.push(shape.i*10 + shape.j);
 		}
 		else if (shape.i > 0 && board[shape.i - 1][shape.j] > 4) {
 			if(board[shape.i - 1][shape.j] == 10){
@@ -401,6 +494,7 @@ function UpdatePacPosition() {
 	if (x == 4) {
 		if (shape.i < 9 && board[shape.i + 1][shape.j] < 4) {
 			shape.i++;
+			leftFreeOnBoard.push(shape.i*10 + shape.j);
 		}
 		else if (shape.i < 9 && board[shape.i + 1][shape.j] > 4) {
 			if(board[shape.i + 1][shape.j] == 10){
@@ -412,15 +506,39 @@ function UpdatePacPosition() {
 		}
 		pac_face = 4;
 	}
-	if (board[shape.i][shape.j] == 1) {
-		score++;
+	if (board[shape.i][shape.j] == 1.2) {
+		score += 25;
 		circleEaten++;
+	}
+	if (board[shape.i][shape.j] == 1) {
+		score += 15;
+		circleEaten++;
+	}
+	if (board[shape.i][shape.j] == 0.8) {
+		score += 5;
+		circleEaten++;
+	}
+	if (board[shape.i][shape.j] == 3) {//eat gift
+		score += 50;
+		giftEaten = true;
+		if(prevValGift == 1.2){
+			circleEaten++;
+			score += 25;
+		}
+		else if(prevValGift == 1){
+			circleEaten++;
+			score += 15;
+		}
+		else if(prevValGift == 0.8){
+			circleEaten++;
+			score += 5;
+		}
 	}
 	board[shape.i][shape.j] = 2;
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
-	if (score >= 20 && time_elapsed <= 10) {
-		pac_color = "green";
+	if (score >= 50 && time_elapsed <= 10) {
+		pac_color = "red";
 	}
 	if(time_elapsed > game_time){
 		window.clearInterval(pacInterval);
@@ -445,7 +563,7 @@ function UpdateMonstersPosition() {
 	for(var k=0; k<monsterCount; k++){
 		if(shape.j == monsterPlace[k].j){//same j
 			if(shape.i < monsterPlace[k].i){
-				if(board[monsterPlace[k].i - 1][monsterPlace[k].j] >= 4){
+				if(board[monsterPlace[k].i - 1][monsterPlace[k].j] >= 3){
 					moveRandFree(monsterPlace[k], k);
 					continue;
 				}
@@ -468,7 +586,7 @@ function UpdateMonstersPosition() {
 				}
 			}
 			else{
-				if(board[monsterPlace[k].i + 1][monsterPlace[k].j] >= 4){
+				if(board[monsterPlace[k].i + 1][monsterPlace[k].j] >= 3){
 					moveRandFree(monsterPlace[k], k);
 					continue;
 				}
@@ -493,7 +611,7 @@ function UpdateMonstersPosition() {
 		}
 		else if(shape.i == monsterPlace[k].i){//same i
 			if(shape.j < monsterPlace[k].j){
-				if(board[monsterPlace[k].i][monsterPlace[k].j - 1] >= 4){
+				if(board[monsterPlace[k].i][monsterPlace[k].j - 1] >= 3){
 					moveRandFree(monsterPlace[k], k);
 					continue;
 				}
@@ -516,7 +634,7 @@ function UpdateMonstersPosition() {
 				}
 			}
 			else{
-				if(board[monsterPlace[k].i][monsterPlace[k].j + 1] >= 4){
+				if(board[monsterPlace[k].i][monsterPlace[k].j + 1] >= 3){
 					moveRandFree(monsterPlace[k], k);
 					continue;
 				}
@@ -557,7 +675,7 @@ function handleChaseI(k, countTimes){
 		return;
 	}
 	if(shape.i < monsterPlace[k].i){
-		if(board[monsterPlace[k].i - 1][monsterPlace[k].j] >= 4){
+		if(board[monsterPlace[k].i - 1][monsterPlace[k].j] >= 3){
 			handleChaseJ(k, countTimes);
 		}
 		else{
@@ -579,7 +697,7 @@ function handleChaseI(k, countTimes){
 		}
 	}
 	else{
-		if(board[monsterPlace[k].i + 1][monsterPlace[k].j] >= 4){
+		if(board[monsterPlace[k].i + 1][monsterPlace[k].j] >= 3){
 			handleChaseJ(k, countTimes);
 		}
 		else{
@@ -608,7 +726,7 @@ function handleChaseJ(k, countTimes){
 		return;
 	}
 	if(shape.j < monsterPlace[k].j){
-		if(board[monsterPlace[k].i][monsterPlace[k].j - 1] >= 4){
+		if(board[monsterPlace[k].i][monsterPlace[k].j - 1] >= 3){
 			handleChaseI(k, countTimes);
 		}
 		else{
@@ -630,7 +748,7 @@ function handleChaseJ(k, countTimes){
 		}
 	}
 	else{
-		if(board[monsterPlace[k].i][monsterPlace[k].j + 1] >= 4){
+		if(board[monsterPlace[k].i][monsterPlace[k].j + 1] >= 3){
 			handleChaseI(k, countTimes);
 		}
 		else{
@@ -691,8 +809,12 @@ function pacEaten(bool){
 			board[monsterPlace[k].i][monsterPlace[k].j] = 10 - k;
 		}
 		//handle the pacman
-		let emptyCell = findRandomEmptyCell(leftFreeOnBoard);
+		let emptyCell = findRandomEmptyCell();
 		board[shape.i][shape.j] = 0;
+		if(board[emptyCell[0]][emptyCell[1]] == 3){
+			score += 50;
+			giftEaten = true;
+		}
 		board[emptyCell[0]][emptyCell[1]] = 2;
 		shape.i = emptyCell[0];
 		shape.j = emptyCell[1]
@@ -700,30 +822,80 @@ function pacEaten(bool){
 }
 
 function moveRandFree(place, k){
-	if(place.j < 9 && board[place.i][place.j + 1] < 4){
+	if(place.j < 9 && board[place.i][place.j + 1] < 3){
 		board[place.i][place.j] = prevMonsterVal[k];
 		place.j++;
 		prevMonsterVal[k] = board[place.i][place.j];
 		board[place.i][place.j] = 10 - k;
 	}
-	else if(place.i < 9 && board[place.i + 1][place.j] < 4){
+	else if(place.i < 9 && board[place.i + 1][place.j] < 3){
 		board[place.i][place.j] = prevMonsterVal[k];
 		place.i++;
 		prevMonsterVal[k] = board[place.i][place.j];
 		board[place.i][place.j] = 10 - k;
 	}
-	else if(place.j > 0 && board[place.i][place.j - 1] < 4){
+	else if(place.j > 0 && board[place.i][place.j - 1] < 3){
 		board[place.i][place.j] = prevMonsterVal[k];
 		place.j--;
 		prevMonsterVal[k] = board[place.i][place.j];
 		board[place.i][place.j] = 10 - k;
 	}
-	else if(place.i > 0 && board[place.i - 1][place.j] < 4){
+	else if(place.i > 0 && board[place.i - 1][place.j] < 3){
 		board[place.i][place.j] = prevMonsterVal[k];
 		place.i--;
 		prevMonsterVal[k] = board[place.i][place.j];
 		board[place.i][place.j] = 10 - k;
 	}
+}
+
+function updateRandomShape(){
+	if(!giftEaten){
+		let freeNeighboars = getFreeNeighboards();
+		if(freeNeighboars.length == 0){
+			return;
+		}
+		let rando = Math.floor(Math.random() * freeNeighboars.length);
+		board[giftPlace.i][giftPlace.j] = prevValGift;
+		giftPlace = freeNeighboars[rando];
+		if(shape.i == giftPlace.i && shape.j == giftPlace.j){//collide with pacman
+			score += 50;
+			board[giftPlace.i][giftPlace.j] = 2;
+			giftEaten = true;
+		}
+		else{
+			prevValGift = board[giftPlace.i][giftPlace.j];
+			board[giftPlace.i][giftPlace.j] = 3;
+		}
+	}
+}
+
+function getFreeNeighboards(){
+	let freeNeighboars = new Array();
+	if(giftPlace.j < 9 && board[giftPlace.i][giftPlace.j + 1] < 4){
+		let p1 = new Object();
+		p1.i = giftPlace.i;
+		p1.j = giftPlace.j + 1;
+		freeNeighboars.push(p1);
+	}
+	if(giftPlace.i < 9 && board[giftPlace.i + 1][giftPlace.j] < 4){
+		let p2 = new Object();
+		p2.i = giftPlace.i + 1;
+		p2.j = giftPlace.j;
+		freeNeighboars.push(p2);
+	}
+	if(giftPlace.j > 0 && board[giftPlace.i][giftPlace.j - 1] < 4){
+		let p3 = new Object();
+		p3.i = giftPlace.i;
+		p3.j = giftPlace.j - 1;
+		freeNeighboars.push(p3);
+	}
+	if(giftPlace.i > 0 && board[giftPlace.i - 1][giftPlace.j] < 4){
+		let p4 = new Object();
+		p4.i = giftPlace.i - 1;
+		p4.j = giftPlace.j;
+		freeNeighboars.push(p4);
+	}
+	return freeNeighboars;
 }
 
 function pdateSettingsInApp(ballsNum, ghostNum, gameTime, _5color, _15color, _25color, rightKey, leftKey, upKey, downKey){
@@ -734,5 +906,7 @@ function pdateSettingsInApp(ballsNum, ghostNum, gameTime, _5color, _15color, _25
 	down = downKey;
 	food = ballsNum;
 	game_time = gameTime;
+	color5 = _5color;
+	color15 = _15color;
+	color25 = _25color;
 }
-
