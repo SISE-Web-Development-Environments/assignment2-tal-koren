@@ -1,5 +1,7 @@
 $(function() {
 
+    var ballsNum, ghostNum, gameTime, _5color, _15color, _25color, rightKey, leftKey, upKey, downKey;
+
     function randomizeSettings(){
         document.getElementById("ballsNumber").value = getRandomBetween(50,90);
         document.getElementById("ghostNumber").value = getRandomBetween(1,4);
@@ -35,12 +37,12 @@ $(function() {
         /*saving settings*/
 
         /*simple settings*/
-        let ballsNum = document.getElementById("ballsNumber").value;
-        let ghostNum = document.getElementById("ghostNumber").value;
-        let gameTime = document.getElementById("gameTime").value;
-        let _5color =  document.getElementById("_5color").value;
-        let _15color =  document.getElementById("_15color").value;
-        let _25color =  document.getElementById("_25color").value;
+        ballsNum = document.getElementById("ballsNumber").value;
+        ghostNum = document.getElementById("ghostNumber").value;
+        gameTime = document.getElementById("gameTime").value;
+        _5color =  document.getElementById("_5color").value;
+        _15color =  document.getElementById("_15color").value;
+        _25color =  document.getElementById("_25color").value;
 
         /*direction keys - arrows if empty*/
         let rightKey = "";
@@ -73,6 +75,7 @@ $(function() {
         }
         updateSettingsInApp(ballsNum, ghostNum, gameTime, _5color, _15color, _25color,
                                 rightKey, leftKey, upKey, downKey);
+        window.alert("Settings saved");
     }
     });
 
