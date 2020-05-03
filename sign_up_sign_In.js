@@ -31,7 +31,7 @@ $(function() {
 
     $('#register-form').submit(function(event){
         event.preventDefault(); 
-        if($('#register-form').valid()){
+        if($('#register-form').valid()){    
             register();
         }
     });
@@ -75,7 +75,7 @@ $(function() {
         let password = document.getElementsByName('passwordLogin')[0].value;
         for (index = 0; index < users.length; index++) {
             let currentUserName = users[index]['username'];
-            let currentPassword = users[index]['username'];  
+            let currentPassword = users[index]['password'];  
             if (userName==currentUserName && password==currentPassword) {
                 thisUser = userName; /*To display his name when plating*/
                 document.getElementById('Login').style.display="none"; /*hide login*/
