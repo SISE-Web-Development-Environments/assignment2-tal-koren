@@ -39,6 +39,7 @@ $(document).ready(function() {
 });
 
 function ResetGame(){
+	showGame1();
 	removeEventListener("keydown",updateDownKey);
 	removeEventListener("keyup",updateUpKey);
 	clearInterval(pacInterval);
@@ -543,17 +544,17 @@ function UpdatePacPosition() {
 	if(time_elapsed > game_time){
 		stop();
 		if(score >= 100){
-			hideGame();
+			endGame();
 			window.alert("Winner!!!");
 		}
 		else{
-			hideGame();
+			endGame();
 			window.alert("You are better than " + score + " points!");
 		}
 	}
 	if (circleEaten == food) {
 		stop();	
-		hideGame();
+		endGame();
 		window.alert("Winner!!!");
 	} else {
 		Draw();
@@ -783,7 +784,7 @@ function pacEaten(bool){
 	}
 	if(strikes <= 0){
 		stop();	
-		hideGame();
+		endGame();
 		window.alert("Loser!");
 	}
 	else{

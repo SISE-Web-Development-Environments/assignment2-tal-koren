@@ -64,20 +64,38 @@ function showAboutPage() {
             modal.style.display = "none";
         }
     };
-    hideGame();
+}
+
+function endGame(){
+    document.getElementById('game').style.display="none";
+    document.getElementById('game2').style.display="";
+    document.getElementById('menu').style.display="";
+    stop();
 }
 
 function hideGame() {
     document.getElementById('gameDetails').style.display="none";
     document.getElementById('game').style.display="none";
+    document.getElementById('game2').style.display="none";
+    document.getElementById('menu').style.display="";
     stop();
 }
 
 function showGame(){
     document.getElementById('gameDetails').style.display="";
     document.getElementById('game').style.display="";
+    document.getElementById('game2').style.display="";
+    document.getElementById('menu').style.display="none";
     showSettings();
-    Start();
+    ResetGame();
+}
+
+function showGame1(){
+    document.getElementById('gameDetails').style.display="";
+    document.getElementById('game').style.display="";
+    document.getElementById('game2').style.display="";
+    document.getElementById('menu').style.display="none";
+    showSettings();
 }
 
 

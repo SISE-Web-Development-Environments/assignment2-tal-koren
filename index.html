@@ -21,7 +21,7 @@
 		  
 		  <section>
 			<nav>
-			  <ul>	
+			  <ul id = "menu">	
 				<li onclick="showWelcomePage()"><a>Welcome</a></li>
 				<li onclick="showRegisterPage()"><a>Register</a></li>
 				<li onclick="showLoginPage()"><a>Login</a></li>
@@ -41,58 +41,6 @@
 				<label for="lblTime">Strikes:</label>
 				<input id="lblStrikes" readonly="readonly" type="text" />
 					
-			</div>
-			
-			<div id="game" style="display:none; position: relative;" >
-				<div style="float:left;" >
-					<canvas id="canvas" style="border:1px solid blue; position: relative; left: 10%;" height="500" width="500"></canvas>
-				</div>
-				<div style="float:left; margin:110px">
-					<div>
-						<label for="lblUp">Up:</label>
-						<input id="lblUp" type="text" readonly="readonly" value="Up key"/>
-					</div>
-					<div>
-						<label for="lblDown">Down:</label> 
-						<input id="lblDown" type="text" readonly="readonly" value="Down key"/> 
-					</div>
-					<div>
-						<label for="lblRight">Right:</label> 
-						<input id="lblRight" type="text" readonly="readonly" value="Right key"/> 
-					</div>
-					<div>
-						<label for="lblLeft">Left:</label> 
-						<input id="lblLeft" type="text" readonly="readonly" value="Left key"/> 
-					</div>
-					<div>
-						<label for="lblBallsNum">Number of balls:</label> 
-						<input id="lblBallsNum" readonly="readonly" type="text" /> 
-					</div>
-					<div>
-						<label for="lbl5BallsColor">5 point ball color:</label> 
-						<input id="lbl5BallsColor" readonly="readonly" type="color" /> 
-					</div>
-					<div>
-						<label for="lbl15BallsColor">15 point ball color:</label> 
-						<input id="lbl15BallsColor" readonly="readonly" type="color" /> 
-					</div>
-					<div>
-						<label for="lbl25BallsColor">25 point ball color:</label> 
-						<input id="lbl25BallsColor" readonly="readonly" type="color" /> 
-					</div>
-					<div>
-						<label for="lblGameTime">Game time:</label> 
-						<input id="lblGameTime" readonly="readonly" type="text" /> 
-					</div>
-			    	<div>
-						<label for="lblGhostNumber">Ghost number:</label> 
-						<input id="lblGhostNumber" readonly="readonly" type="text" />
-					</div> 
-				</div>
-				<div>
-					<button onclick="ResetGame()" class=resetButton style="margin-right:80%; " id="reset_game">Reset Game</button>
-				</div>
-
 			</div>
 			
 			<div style="background-image: url(resource\\welcomeBack.jpg); background-attachment: fixed; background-position-x: 75px; background-position-y: -135px; background-repeat: no-repeat; background-size: cover;" id="welcome"  class="welcome">
@@ -239,6 +187,60 @@
 				  </div>				
 			</div>
 		  </section>
+
+		  <div id="game" style="display:none; position: relative;" >
+			<div id = "gameCanvas" style="float:left;" >
+				<canvas id="canvas" style="border:1px solid blue; position: relative; left: 10%;" height="500" width="500"></canvas>
+			</div>
+		</div>
+		
+		<div id = "game2" style="display:none; position: relative;">
+			<div style="float:left; margin:110px">
+				<div>
+					<label for="lblUp">Up:</label>
+					<input id="lblUp" type="text" readonly="readonly" value="Up key"/>
+				</div>
+				<div>
+					<label for="lblDown">Down:</label> 
+					<input id="lblDown" type="text" readonly="readonly" value="Down key"/> 
+				</div>
+				<div>
+					<label for="lblRight">Right:</label> 
+					<input id="lblRight" type="text" readonly="readonly" value="Right key"/> 
+				</div>
+				<div>
+					<label for="lblLeft">Left:</label> 
+					<input id="lblLeft" type="text" readonly="readonly" value="Left key"/> 
+				</div>
+				<div>
+					<label for="lblBallsNum">Number of balls:</label> 
+					<input id="lblBallsNum" readonly="readonly" type="text" /> 
+				</div>
+				<div>
+					<label for="lbl5BallsColor">5 point ball color:</label> 
+					<input id="lbl5BallsColor" readonly="readonly" type="color" /> 
+				</div>
+				<div>
+					<label for="lbl15BallsColor">15 point ball color:</label> 
+					<input id="lbl15BallsColor" readonly="readonly" type="color" /> 
+				</div>
+				<div>
+					<label for="lbl25BallsColor">25 point ball color:</label> 
+					<input id="lbl25BallsColor" readonly="readonly" type="color" /> 
+				</div>
+				<div>
+					<label for="lblGameTime">Game time:</label> 
+					<input id="lblGameTime" readonly="readonly" type="text" /> 
+				</div>
+				<div>
+					<label for="lblGhostNumber">Ghost number:</label> 
+					<input id="lblGhostNumber" readonly="readonly" type="text" />
+				</div> 
+			</div>
+			<div>
+				<button onclick="ResetGame()" class=resetButton style="margin-right:80%; " id="reset_game">Reset Game</button>
+			</div>
+		</div>
 		  
 		  <footer>
 			<p>Site was built and designed by Koren Ishlach and Tal Frimerman 

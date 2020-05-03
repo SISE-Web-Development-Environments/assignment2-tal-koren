@@ -111,13 +111,13 @@ function showSettings() {
         lblDown.value=String.fromCharCode(downKey);
     }
     if (rightKey>=37 && rightKey<=40) {
-        lblRight.value="Right key";
+        lblRight.value="Right arrow";
     }
     else {
         lblRight.value=String.fromCharCode(rightKey);
     }
     if (leftKey>=37 && leftKey<=40) {
-        leftKey=value="Left key";
+        lblLeft.value="Left arrow";
     }
     else {
         lblLeft.value=String.fromCharCode(leftKey);
