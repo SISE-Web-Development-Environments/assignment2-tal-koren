@@ -50,7 +50,12 @@
     float: left;
   }
 
-  
+  .resetButton{
+    color:black;
+    text-align: center;
+    padding: 20px;
+    
+  }
   
   /* Clear floats after the columns */
   section:after {
