@@ -543,17 +543,17 @@ function UpdatePacPosition() {
 	if(time_elapsed > game_time){
 		stop();
 		if(score >= 100){
-			notifyEnd();
+			hideGame();
 			window.alert("Winner!!!");
 		}
 		else{
-			notifyEnd();
+			hideGame();
 			window.alert("You are better than " + score + " points!");
 		}
 	}
 	if (circleEaten == food) {
 		stop();	
-		notifyEnd();
+		hideGame();
 		window.alert("Winner!!!");
 	} else {
 		Draw();
@@ -783,7 +783,7 @@ function pacEaten(bool){
 	}
 	if(strikes <= 0){
 		stop();	
-		notifyEnd();
+		hideGame();
 		window.alert("Loser!");
 	}
 	else{
