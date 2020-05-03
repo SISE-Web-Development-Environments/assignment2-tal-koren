@@ -70,6 +70,7 @@ function showAboutPage() {
 function hideGame() {
     document.getElementById('gameDetails').style.display="none";
     document.getElementById('game').style.display="none";
+    stop();
 }
 
 function showGame(){
@@ -77,7 +78,6 @@ function showGame(){
     document.getElementById('game').style.display="";
     showSettings();
     Start();
-    ResetGame();
 }
 
 
