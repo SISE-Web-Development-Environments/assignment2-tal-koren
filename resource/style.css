@@ -14,7 +14,7 @@
   header {
     background-color: #666;
     background-image:  url("headerBG.jpg");
-    padding: 5px;
+    padding: 0  px;
     text-align: left;
     font-size: 12px;
     color: black;
@@ -51,10 +51,22 @@
   }
 
   .resetButton{
-    color:black;
+    background-color: #4CAF50;
+    border: none;
+    color: black;
+    padding: 9px 28px;
     text-align: center;
-    padding: 20px;
-    
+    font-size: 16px;
+    margin: 4px 2px;
+    opacity: 0.6;
+    transition: 1.5s;
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .resetButton:hover{
+    opacity: 1
   }
   
   /* Clear floats after the columns */
