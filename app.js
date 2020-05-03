@@ -541,8 +541,7 @@ function UpdatePacPosition() {
 		pac_color = "red";
 	}
 	if(time_elapsed > game_time){
-		window.clearInterval(pacInterval);
-		window.clearInterval(monsterInterval);
+		stop();
 		if(score >= 100){
 			window.alert("Winner!!!");
 		}
@@ -551,8 +550,7 @@ function UpdatePacPosition() {
 		}
 	}
 	if (circleEaten == food) {
-		window.clearInterval(pacInterval);
-		window.clearInterval(monsterInterval);	
+		stop();	
 		window.alert("Winner!!!");
 	} else {
 		Draw();
@@ -781,8 +779,7 @@ function pacEaten(bool){
 		strikes--;
 	}
 	if(strikes <= 0){
-		window.clearInterval(pacInterval);
-		window.clearInterval(monsterInterval);	
+		stop();	
 		window.alert("Loser!");
 	}
 	else{
